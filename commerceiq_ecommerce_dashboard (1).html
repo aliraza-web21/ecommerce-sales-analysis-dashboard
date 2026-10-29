@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CommerceIQ — E-commerce Analytics</title>
+  <meta name="description" content="Interactive e-commerce sales analytics dashboard with revenue, profit, order, and product performance insights." />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">C</div>
+      <div><div class="brand-name">CommerceIQ</div><div class="brand-sub">ANALYTICS SUITE</div></div>
+    </div>
+    <div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="nav-list">
+        <a class="nav-item active" href="#overview"><span class="nav-icon">▦</span> Overview</a>
+        <a class="nav-item" href="#sales"><span class="nav-icon">↗</span> Sales analytics</a>
+        <a class="nav-item" href="#products"><span class="nav-icon">▤</span> Products</a>
+        <a class="nav-item" href="#orders"><span class="nav-icon">☷</span> Orders</a>
+      </nav>
+    </div>
+    <div>
+      <div class="nav-label">MANAGE DATA</div>
+      <nav class="nav-list">
+        <a class="nav-item" href="#orders" id="uploadNav"><span class="nav-icon">⇧</span> Import CSV</a>
+        <a class="nav-item" href="#insights"><span class="nav-icon">✧</span> Insights</a>
+      </nav>
+    </div>
+    <div class="side-bottom">
+      <strong>Make this dashboard yours</strong>
+      <p>Import your own e-commerce CSV to replace the demo data with your real analysis.</p>
+      <button id="sideUpload">↑ &nbsp; Upload dataset</button>
+    </div>
+  </aside>
+
+  <main id="overview">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">Business intelligence / Overview</div>
+        <h1>Sales performance</h1>
+        <div class="subtitle">A clear view of revenue, orders, and product performance.</div>
+      </div>
+      <div class="top-actions">
+        <button class="date-chip" id="dateRangeLabel">◷ &nbsp; Last 90 days</button>
+        <button class="btn" id="resetBtn">↻ Reset filters</button>
+        <button class="btn btn-primary" id="exportBtn">↓ Export report</button>
+      </div>
+    </header>
+
+    <section class="filter-row" aria-label="Dashboard filters">
+      <div class="filter"><label for="dateFilter">TIME PERIOD</label>
+        <select id="dateFilter">
+          <option value="90">Last 90 days</option><option value="30">Last 30 days</option><option value="all">All time</option>
+        </select>
+      </div>
+      <div class="filter"><label for="categoryFilter">CATEGORY</label>
+        <select id="categoryFilter"><option value="all">All categories</option></select>
+      </div>
+      <div class="filter"><label for="regionFilter">REGION</label>
+        <select id="regionFilter"><option value="all">All regions</option></select>
+      </div>
+      <div class="filter-spacer"></div>
+      <div class="muted-note" id="dataStatus">● Demo dataset · 120 sample orders</div>
+    </section>
+
+    <section class="kpi-grid" aria-label="Key performance indicators">
+      <article class="card kpi">
+        <div class="kpi-head"><span>Total revenue</span><span class="kpi-icon">$</span></div>
+        <div class="kpi-value" id="revenueKpi">$0</div>
+        <div class="kpi-foot"><span class="trend">↗ 12.8%</span><span>vs. previous period</span></div>
+      </article>
+      <article class="card kpi">
+        <div class="kpi-head"><span>Total orders</span><span class="kpi-icon">▤</span></div>
+        <div class="kpi-value" id="ordersKpi">0</div>
+        <div class="kpi-foot"><span class="trend">↗ 8.2%</span><span>vs. previous period</span></div>
+      </article>
+      <article class="card kpi">
+        <div class="kpi-head"><span>Net profit</span><span class="kpi-icon">↗</span></div>
+        <div class="kpi-value" id="profitKpi">$0</div>
+        <div class="kpi-foot"><span class="trend" id="marginBadge">0% margin</span><span>of revenue</span></div>
+      </article>
+      <article class="card kpi">
+        <div class="kpi-head"><span>Units sold</span><span class="kpi-icon">▦</span></div>
+        <div class="kpi-value" id="unitsKpi">0</div>
+        <div class="kpi-foot"><span class="trend">↗ 5.4%</span><span>items fulfilled</span></div>
+      </article>
+    </section>
+
+    <section class="chart-grid" id="sales">
+      <article class="card chart-card">
+        <div class="card-head"><div><div class="card-title">Revenue over time</div><div class="card-desc">Daily revenue trend across the selected period</div></div>
+          <select class="mini-select" id="trendGrouping" aria-label="Revenue chart grouping"><option value="month">Monthly</option><option value="week">Weekly</option></select>
+        </div>
+        <div class="chart-wrap"><canvas id="revenueChart" aria-label="Revenue over time chart"></canvas></div>
+      </article>
+      <article class="card chart-card">
+        <div class="card-head"><div><div class="card-title">Revenue by category</div><div class="card-desc">Which product groups contribute most?</div></div><span class="kpi-icon">◔</span></div>
+        <div class="chart-wrap"><canvas id="categoryChart" aria-label="Revenue by category chart"></canvas></div>
+      </article>
+    </section>
+
+    <section class="lower-grid" id="products">
+      <article class="card chart-card">
+        <div class="card-head"><div><div class="card-title">Top products by revenue</div><div class="card-desc">Your highest-grossing products</div></div><span class="mini-select">TOP 5</span></div>
+        <div class="chart-wrap short"><canvas id="productsChart" aria-label="Top products chart"></canvas></div>
+      </article>
+      <article class="card chart-card" id="insights">
+        <div class="card-head"><div><div class="card-title">Analyst highlights</div><div class="card-desc">Automatically generated from the filtered data</div></div><span class="kpi-icon">✧</span></div>
+        <div class="insight-list" id="insightList"></div>
+      </article>
+    </section>
+
+    <section class="card chart-card" style="margin-bottom:17px">
+      <div class="card-head"><div><div class="card-title">Revenue vs. profit</div><div class="card-desc">Compare sales value with profit contribution by category</div></div></div>
+      <div class="chart-wrap short"><canvas id="profitChart" aria-label="Revenue and profit comparison chart"></canvas></div>
+    </section>
+
+    <section class="card table-card" id="orders">
+      <div class="card-head">
+        <div><div class="card-title">Recent orders</div><div class="card-desc">Browse, search, and export filtered order records</div></div>
+        <div class="table-toolbar">
+          <input class="search" id="tableSearch" type="search" placeholder="Search order, product, customer…" aria-label="Search orders" />
+          <button class="btn" id="tableExport">Export CSV</button>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Order ID</th><th>Product</th><th>Category</th><th>Date</th><th>Region</th><th>Revenue</th><th>Profit</th><th>Status</th></tr></thead>
+          <tbody id="ordersBody"></tbody>
+        </table>
+      </div>
+      <div class="table-footer"><span id="tableCount">Showing 0 orders</span><div class="pager"><button id="prevPage">← Previous</button><button id="nextPage">Next →</button></div></div>
+    </section>
+    <footer class="footer"><span>© 2026 CommerceIQ Analytics · Demo data for portfolio practice</span><span>Built with HTML, CSS, JavaScript & Chart.js · Python/Pandas-ready workflow</span></footer>
+  </main>
+</div>
+<input type="file" id="csvInput" accept=".csv,text/csv" hidden />
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+<script src="script.js"></script>
+</html>

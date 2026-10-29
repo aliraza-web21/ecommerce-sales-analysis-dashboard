@@ -37,7 +37,11 @@ ecommerce-sales-dashboard/
 ├── ecommerce_sales_profit_dataset.xlsx
 └── README.md
 ```
-
+ecommerce-sales-dashboard/
+├── commerceiq_ecommerce_dashboard.html
+├── ecommerce_sales_profit_dataset.csv
+├── ecommerce_sales_profit_dataset.xlsx
+└── README.md
 Keep the filenames above if you use this structure, or update the names in this README to match your repository.
 
 ## Dataset
@@ -84,7 +88,13 @@ cd <YOUR_REPOSITORY_FOLDER>
 ```
 
 Then open `commerceiq_ecommerce_dashboard.html` in your browser. Replace the placeholder repository URL with your own GitHub repository URL.
+import pandas as pd
 
+df = pd.read_csv("ecommerce_sales_profit_dataset.csv")
+
+print(df.head())
+print(df.info())
+print(df.describe())
 ## Data Analysis Practice
 
 You can also analyze the CSV with Python and Pandas.
@@ -106,7 +116,12 @@ print(df.head())
 print(df.info())
 print(df.describe())
 ```
-
+1. What are the total revenue, profit, and units sold?
+2. Which five products generated the most revenue?
+3. How does revenue change month by month?
+4. Which category generated the highest profit?
+5. How do sales compare across regions?
+6. How do order statuses affect the results?
 Example analysis questions:
 
 1. What are the total revenue, profit, and units sold?
@@ -115,10 +130,6 @@ Example analysis questions:
 4. Which category generated the highest profit?
 5. How do sales compare across regions?
 6. How do order statuses affect the results?
-
-Example: monthly revenue
-
-```python
 df["order_date"] = pd.to_datetime(df["order_date"])
 
 monthly_revenue = (
@@ -128,8 +139,24 @@ monthly_revenue = (
 )
 
 print(monthly_revenue)
-```
+Example: monthly revenue
 
+```python
+df["order_date"] = pd.to_datetime(df["order_date"])
+
+monthly_revenue = (
+    df.groupby(df["order_date"].dt.to_period("M"))["revenue"]
+    .sum()
+    .reset_index()
+)
+
+print(monthly_revenue)
+```
+- Connect the dashboard to a Python/Pandas analysis pipeline
+- Build a FastAPI backend for serving cleaned data and KPI summaries
+- Add more advanced date and status filters
+- Add data validation and clearer handling for refunded or pending orders
+- Add automated tests and deployment instructions
 For more meaningful sales reporting, define a consistent rule for completed, pending, and refunded orders before calculating final metrics.
 
 ## Future Improvements
@@ -139,7 +166,11 @@ For more meaningful sales reporting, define a consistent rule for completed, pen
 - Add more advanced date and status filters
 - Add data validation and clearer handling for refunded or pending orders
 - Add automated tests and deployment instructions
-
+- Data cleaning and exploratory data analysis
+- Grouping and aggregating data with Pandas
+- Visualizing business metrics
+- Building an interactive front-end dashboard
+- Presenting project documentation in a GitHub repository
 ## Learning Goals
 
 This project is intended to practise:
