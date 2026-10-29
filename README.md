@@ -1,2 +1,159 @@
-# ecommerce-sales-analysis-dashboard
-CommerceIQ — E-commerce Sales & Profit Dashboard An interactive e-commerce analytics dashboard for exploring sales performance, revenue, profit, units sold, product performance, and regional trends. The project combines a browser-based dashboard with a synthetic sales dataset that can be imported for analysis. Note: The included dataset is synthetic and intended for learning and portfolio demonstration. It does not represent real business transactions.  Features - KPI summary: Total revenue, orders, profit, and units sold - Sales trends: Explore revenue over time - Category breakdown: Compare sales across product categories - Top products: Identify products with strong revenue performance - Revenue vs. profit: Compare revenue and profit trends - Orders table: Search and review order-level records - Interactive filters: Filter records by date, category, and region - CSV import: Load the supplied dataset or another compatible CSV file - CSV export: Export dashboard order data - Responsive layout: Designed to work on desktop and smaller screens Built With - HTML5 - CSS3 - JavaScript - Chart.js for charts - Python and Pandas for dataset preparation and analysis practice - CSV / Excel for working with tabular data Current implementation: The dashboard is a standalone front-end website. It uses demo data until a CSV is imported. It is not yet connected to a Python/Pandas processing pipeline or a FastAPI backend. Project Files ecommerce-sales-dashboard/ ├── commerceiq_ecommerce_dashboard.html ├── ecommerce_sales_profit_dataset.csv ├── ecommerce_sales_profit_dataset.xlsx └── README.md Keep the filenames above if you use this structure, or update the names in this README to match your repository. Dataset The sample dataset contains 500 synthetic order records with fields including: Column	Description order_id	Unique order identifier order_date	Date of the order product_name	Product name category	Product category region	Sales region sales_channel	Channel through which the order was placed units_sold	Number of units sold unit_price	Price per unit before discount discount_rate	Discount rate applied discount_amount	Discount amount for the order revenue	Sales revenue after discount unit_cost	Cost per unit shipping_cost	Shipping/handling cost for the order profit	Revenue minus product cost and shipping/handling cost payment_method	Payment method order_status	Order status, such as completed, pending, or refunded   Calculation note: In this dataset, profit is calculated before taxes and other business overheads. Decide how to handle pending and refunded orders before using the data for business-style conclusions; do not assume every row represents a completed sale. Getting Started Option 1: Open the dashboard directly 1. Download or clone this repository. 2. Open commerceiq_ecommerce_dashboard.html in a modern browser such as Chrome or Edge. 3. If the dashboard opens with sample data, use its CSV import option to load ecommerce_sales_profit_dataset.csv. 4. Use the filters and charts to explore the dataset. The dashboard loads Chart.js from a CDN, so an internet connection is required for the charts to load when using this version. Option 2: Clone the repository git clone <YOUR_GITHUB_REPOSITORY_URL> cd <YOUR_REPOSITORY_FOLDER> Then open commerceiq_ecommerce_dashboard.html in your browser. Replace the placeholder repository URL with your own GitHub repository URL. Data Analysis Practice You can also analyze the CSV with Python and Pandas.  Install the required library: pip install pandas Load and inspect the data: import pandas as pd  df = pd.read_csv("ecommerce_sales_profit_dataset.csv")  print(df.head()) print(df.info()) print(df.describe()) Example analysis questions: 1. What are the total revenue, profit, and units sold? 2. Which five products generated the most revenue? 3. How does revenue change month by month? 4. Which category generated the highest profit? 5. How do sales compare across regions? 6. How do order statuses affect the results? Example: monthly revenue df["order_date"] = pd.to_datetime(df["order_date"])  monthly_revenue = (     df.groupby(df["order_date"].dt.to_period("M"))["revenue"]       .sum()       .sort_index() )  print(monthly_revenue) For more meaningful sales reporting, define a consistent rule for completed, pending, and refunded orders before calculating final metrics. Future Improvements - Connect the dashboard to a Python/Pandas analysis pipeline - Build a FastAPI backend for serving cleaned data and KPI summaries - Add more advanced date and status filters - Add data validation and clearer handling for refunded or pending orders - Add automated tests and deployment instructions Learning Goals This project is intended to practise: - Data cleaning and exploratory data analysis - Grouping and aggregating data with Pandas - Visualizing business metrics - Building an interactive front-end dashboard - Presenting project documentation in a GitHub repository License Choose a license before publishing the repository. If you want others to reuse or modify your code, consider adding an appropriate open-source license file, such as the MIT License. Do not claim a license unless you have added it to the repository. Created as a learning and portfolio project for e-commerce data analysis and dashboard development.
+# CommerceIQ — E-commerce Sales & Profit Dashboard
+
+An interactive e-commerce analytics dashboard for exploring sales performance, revenue, profit, units sold, product performance, and regional trends. The project combines a browser-based dashboard with a synthetic sales dataset that can be imported for analysis.
+
+> **Note:** The included dataset is synthetic and intended for learning and portfolio demonstration. It does not represent real business transactions.
+
+## Features
+
+- **KPI summary:** Total revenue, orders, profit, and units sold
+- **Sales trends:** Explore revenue over time
+- **Category breakdown:** Compare sales across product categories
+- **Top products:** Identify products with strong revenue performance
+- **Revenue vs. profit:** Compare revenue and profit trends
+- **Orders table:** Search and review order-level records
+- **Interactive filters:** Filter records by date, category, and region
+- **CSV import:** Load the supplied dataset or another compatible CSV file
+- **CSV export:** Export dashboard order data
+- **Responsive layout:** Designed to work on desktop and smaller screens
+
+## Built With
+
+- HTML5
+- CSS3
+- JavaScript
+- [Chart.js](https://www.chartjs.org/) for charts
+- Python and Pandas for dataset preparation and analysis practice
+- CSV / Excel for working with tabular data
+
+**Current implementation:** The dashboard is a standalone front-end website. It uses demo data until a CSV is imported. It is not yet connected to a Python/Pandas processing pipeline or a FastAPI backend.
+
+## Project Files
+
+```text
+ecommerce-sales-dashboard/
+├── commerceiq_ecommerce_dashboard.html
+├── ecommerce_sales_profit_dataset.csv
+├── ecommerce_sales_profit_dataset.xlsx
+└── README.md
+```
+
+Keep the filenames above if you use this structure, or update the names in this README to match your repository.
+
+## Dataset
+
+The sample dataset contains **500 synthetic order records** with fields including:
+
+| Column | Description |
+|---|---|
+| `order_id` | Unique order identifier |
+| `order_date` | Date of the order |
+| `product_name` | Product name |
+| `category` | Product category |
+| `region` | Sales region |
+| `sales_channel` | Channel through which the order was placed |
+| `units_sold` | Number of units sold |
+| `unit_price` | Price per unit before discount |
+| `discount_rate` | Discount rate applied |
+| `discount_amount` | Discount amount for the order |
+| `revenue` | Sales revenue after discount |
+| `unit_cost` | Cost per unit |
+| `shipping_cost` | Shipping/handling cost for the order |
+| `profit` | Revenue minus product cost and shipping/handling cost |
+| `payment_method` | Payment method |
+| `order_status` | Order status, such as completed, pending, or refunded |
+
+**Calculation note:** In this dataset, profit is calculated before taxes and other business overheads. Decide how to handle pending and refunded orders before using the data for business-style conclusions; do not assume every row represents a completed sale.
+
+## Getting Started
+
+### Option 1: Open the dashboard directly
+
+1. Download or clone this repository.
+2. Open `commerceiq_ecommerce_dashboard.html` in a modern browser such as Chrome or Edge.
+3. If the dashboard opens with sample data, use its CSV import option to load `ecommerce_sales_profit_dataset.csv`.
+4. Use the filters and charts to explore the dataset.
+
+The dashboard loads Chart.js from a CDN, so an internet connection is required for the charts to load when using this version.
+
+### Option 2: Clone the repository
+
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd <YOUR_REPOSITORY_FOLDER>
+```
+
+Then open `commerceiq_ecommerce_dashboard.html` in your browser. Replace the placeholder repository URL with your own GitHub repository URL.
+
+## Data Analysis Practice
+
+You can also analyze the CSV with Python and Pandas.
+
+Install the required library:
+
+```bash
+pip install pandas
+```
+
+Load and inspect the data:
+
+```python
+import pandas as pd
+
+df = pd.read_csv("ecommerce_sales_profit_dataset.csv")
+
+print(df.head())
+print(df.info())
+print(df.describe())
+```
+
+Example analysis questions:
+
+1. What are the total revenue, profit, and units sold?
+2. Which five products generated the most revenue?
+3. How does revenue change month by month?
+4. Which category generated the highest profit?
+5. How do sales compare across regions?
+6. How do order statuses affect the results?
+
+Example: monthly revenue
+
+```python
+df["order_date"] = pd.to_datetime(df["order_date"])
+
+monthly_revenue = (
+    df.groupby(df["order_date"].dt.to_period("M"))["revenue"]
+      .sum()
+      .sort_index()
+)
+
+print(monthly_revenue)
+```
+
+For more meaningful sales reporting, define a consistent rule for completed, pending, and refunded orders before calculating final metrics.
+
+## Future Improvements
+
+- Connect the dashboard to a Python/Pandas analysis pipeline
+- Build a FastAPI backend for serving cleaned data and KPI summaries
+- Add more advanced date and status filters
+- Add data validation and clearer handling for refunded or pending orders
+- Add automated tests and deployment instructions
+
+## Learning Goals
+
+This project is intended to practise:
+
+- Data cleaning and exploratory data analysis
+- Grouping and aggregating data with Pandas
+- Visualizing business metrics
+- Building an interactive front-end dashboard
+- Presenting project documentation in a GitHub repository
+
+## License
+
+Choose a license before publishing the repository. If you want others to reuse or modify your code, consider adding an appropriate open-source license file, such as the MIT License. Do not claim a license unless you have added it to the repository.
+
+---
+
+**Created as a learning and portfolio project for e-commerce data analysis and dashboard development.**
